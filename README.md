@@ -21,28 +21,10 @@ Week 1
 -   Github [Go](week-1/README.md#github)
 -   Helpful resources [Go](week-1/README.md#helpful-resources)
 
-Week 2
-======
-
--   Clone and push code to git with ssh [Go](week-2/README.md#git)
--   Understanding the concept of Rmarkdown [Go](week-2/README.md#r-markdown)
-
-Week 3
-======
-
--   Practise the usage of basic functions [Go](week-3/week-3-tasks.Rmd)
--   paste, seq, %in%, runif, sample
-
-Week 4
-======
-
--   Practise the usage of dplyr functions [Go](week-4/week-4-tasks.html)
--   Filter, mutate, select, merge, rename
--   Writing datat into different formats(csv, xlsx, rds)
 
 Contact
 =======
 
-Mészáros Viktória<br> [git](https://github.com/Viki-Meszaros) [email](mailto:MeszarosV@ceu.edu)
+Kónya Viktória<br> [git](https://github.com/viktoriakonya) [email](mailto:MeszarosV@ceu.edu)
 
 Orsós Mihály<br> [git](https://github.com/misrori) [email](mailto:OrsosM@ceu.edu)
