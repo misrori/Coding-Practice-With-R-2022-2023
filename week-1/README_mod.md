@@ -216,13 +216,13 @@ Github
 * On the GitHub website, go to the repository you want to clone.
 * Go to Code and copy the URL.
 
-![](README_files/figure-markdown_github/git_clone.png)
+![](README_files/figure-markdown_github/git_clone.PNG)
 
 * In RStudio create a new project with version control.
     * File -> New Project -> Version control -> Git 
 * Paste the URL copied from GitHub.
 
-![](README_files/figure-markdown_github/git_clone_2.png)
+![](README_files/figure-markdown_github/git_clone_2.PNG)
 
 Task
 ----
