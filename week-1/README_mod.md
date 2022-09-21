@@ -190,7 +190,9 @@ wordcloud(c(letters, LETTERS, 0:9), seq(1, 1000, len = 80))
 Cheatseets
 ==========
 
-Check out the [cheatseets](https://www.rstudio.com/resources/cheatsheets/) They are very useful!
+Check out the [cheatseets](https://www.rstudio.com/resources/cheatsheets/) 
+
+They are very useful!
 
 Github
 ======
@@ -209,8 +211,32 @@ Github
 
 ![](README_files/figure-markdown_github/r_git.png)
 
+## Cloning a repository
+* Creating a copy of an existing Git repository to our local machine. 
+* On the GitHub website, go to the repository you want to clone.
+* Go to Code and copy the URL.
 
-Clone [this](https://github.com/daroczig/CEU-R-lab) repo from github and check the working directory and the files inside the folder.<br> Install [this](https://github.com/daroczig/logger) package from github
+![](README_files/figure-markdown_github/git_clone.png)
+
+* In RStudio create a new project with version control.
+    * File -> New Project -> Version control -> Git 
+* Paste the URL copied from GitHub.
+
+![](README_files/figure-markdown_github/git_clone_2.png)
+
+Task
+----
+
+Clone [this](https://github.com/daroczig/CEU-R-lab) repo from github and check the working directory and the files inside the folder.
+
+## Creating a new project with version control
+* On GitHub create a new repository.
+* Clone the repository to your machine as above.
+
+Task
+----
+
+Create a new project with version control.
 
 Helpful resources
 =================
