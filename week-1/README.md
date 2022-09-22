@@ -69,12 +69,12 @@ Intro to basic math
 ===================
 
 ``` r
-# Basic math operatiors
+# Basic math operators
 2+3
 2^4
 sqrt(9)
 
-# Logical operatiors
+# Logical operators
 2==3
 2!=3
 
