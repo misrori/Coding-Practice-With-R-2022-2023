@@ -35,7 +35,7 @@ Setting up RStudio with your github profile
     - Click, View public key, and copy the displayed public key.
     - On the GitHub website, open the account settings tab and click the SSH keys tab Click Add SSH key and paste in the public key copied from RStudio.
 
-![](figure-markdown_github/r_git.png)
+<img src="figure-markdown_github/r_git.png" width="600">
 
 The steps are also written [here](https://github.com/daroczig/CEU-R-skills#technical-prerequisites)
 
@@ -52,8 +52,7 @@ Fork and clone
 - Cloning allows the user to make changes directly to the original project.
 - A cloned repo will **continue to synchronize** with the original repository.
 
-![](figure-markdown_github/git_fork_clone.png)
-
+<img src="figure-markdown_github/git_fork_clone.png" width="400">
 
 Work in team of two and solve the next tasks.
 
