@@ -46,6 +46,7 @@ Fork and clone
 - Fork creates an **independent copy** of the original Git repo in your GitHub.
 - Forking a repository allows the user to freely create modifications and changes without affecting the original project.
 - A forked repo will **not synchronize** with the original repository.
+- It is better to fork before clone if you do not have write permission to the folder (you are not a contributor) or the project is the starting point of your own project.
 
 **Clone**
 - Clone creates a **linked copy** of the original Git repo.
