@@ -96,5 +96,5 @@ Check out the different themes for R markdown documnets [here](https://prettydoc
 Task
 ----
 
-Replicate [this html](week-2/Sample_markdown.html)
+Replicate [this html](week-2/Practice_task.html)
 
