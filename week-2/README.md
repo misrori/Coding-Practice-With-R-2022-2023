@@ -78,7 +78,8 @@ Git task: create pull request
 R markdown
 ==========
 
-Get started [here](https://rmarkdown.rstudio.com/index.html) Read and complate all the task at home <br> Check out the [R markdown cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)<br> Also you can find other cheatsheets go to help -&gt; cheetsheets
+Get started [here](https://rmarkdown.rstudio.com/index.html) 
+Read and complate all the task at home <br> Check out the [R markdown cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)<br> Also you can find other cheatsheets go to help -&gt; cheetsheets
 
 Prettydoc
 ---------
