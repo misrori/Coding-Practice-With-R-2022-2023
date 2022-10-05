@@ -1,0 +1,77 @@
+---
+title: "My first R markdown"
+subtitle: "Created fully by myself"
+author: "Viktória Kónya"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+    prettydoc::html_pretty:
+      theme: cayman
+      highlight: github
+
+---
+
+# Aim
+
+In this project I am practicing R markdown features.
+
+I would like to:
+
+1. understand R markdown
+2. learn new things
+3. create a nice document
+
+# Theme
+
+To change the theme of the document I am using [Prettydocs](https://prettydoc.statr.me/).
+
+# Codes
+
+I include a code chunk with a comment in it.
+
+```{r}
+# I am the comment :D
+```
+
+I also say hello to the world with a `print()` and for that I am only showing the output of the code.
+
+```{r}
+"Hello World!"
+```
+
+# Tables
+
+With kableExtra I show the first 5 rows of the **ChickWeight** dataset. For this I will use the [kableExtra](https://cran.r-project.org/web/packages/kableExtra/vignettes/awesome_table_in_html.html) package which I imported in a separate chunk.
+
+For the table I used the *classic* style.
+
+```{r echo = F}
+library(kableExtra)
+dt <- ChickWeight[1:5, ]
+kable(dt) %>%
+  kable_classic(full_width = F)
+```
+
+# Plots
+
+I included one plot. It need to:
+
+* be aligned to the center
+* have a size of 70%
+* hide the codes creating the plot
+* hide warning message
+
+
+```{r echo = F}
+library(ggplot2)
+ggplot(cars, aes(x=speed, y=dist)) +
+  geom_point(color = "green4") +
+  labs(title = "Chart of cars",
+       x = "Speed",
+       y = "Distance") +
+  theme_bw()
+```
+
+
+
+
+
