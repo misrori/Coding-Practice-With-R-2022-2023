@@ -18,8 +18,18 @@ Week 1
 -   Github [Go](week-1/README.md#github)
 -   Helpful resources [Go](week-1/README.md#helpful-resources)
 
+Week 2
+======
 
-Contact
+- Git
+  - Setup Rstudio with your github profile
+  - Git task: project with collaborator
+  - Git task: create pull request
+- R markdown
+  - Prettydoc
+  - Task
+  - Contact
+  
 =======
 
 Kónya Viktória<br> [git](https://github.com/viktoriakonya) [email](mailto:MeszarosV@ceu.edu)
