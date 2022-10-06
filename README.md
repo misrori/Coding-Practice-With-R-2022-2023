@@ -21,16 +21,13 @@ Week 1
 Week 2
 ======
 
-- Git
-  - Setup Rstudio with your github profile
-  - Git task: project with collaborator
-  - Git task: create pull request
-- R markdown
-  - Prettydoc
-  - Task
-  - Contact
+- Git 
+  - Setup Rstudio with your github profile [Go](week-2/README.md#setup-rstudio-with-your-github-profile)
+  - Git task: project with collaborator [Go](week-2/README.md#git-task-project-with-collaborator)
+  - Git task: create pull request [Go](week-2/README.md#git-task-create-pull-request)
+- R markdown 
+  - Prettydoc [Go](week-2/README.md#prettydoc)
   
-=======
 
 Kónya Viktória<br> [git](https://github.com/viktoriakonya) [email](mailto:MeszarosV@ceu.edu)
 
