@@ -28,7 +28,8 @@ Week 2
 - R markdown 
   - Prettydoc [Go](week-2/README.md#prettydoc)
   
-
+Contact info
+======
 Kónya Viktória<br> [git](https://github.com/viktoriakonya) [email](mailto:MeszarosV@ceu.edu)
 
 Orsós Mihály<br> [git](https://github.com/misrori) [email](mailto:OrsosM@ceu.edu)
