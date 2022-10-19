@@ -28,6 +28,42 @@ Week 2
   - Git task: create pull request [Go](week-2/README.md#git-task-create-pull-request)
 - R markdown 
   - Prettydoc [Go](week-2/README.md#prettydoc)
+
+
+Week 3
+======
+
+- Git branch and pull request
+- Create a pull request
+- Basic commands
+  - Concatenate vectors
+  - Sequences
+  - Random numbers
+  - Vectors
+  - Lists
+  - Data type/structures
+  - Prettydoc
+  
+Week 4
+======
+
+- Data import / export (recap)
+- Basic dataframe manipulations
+  - Indexing in data-frames
+  - Column reference
+  - Filtering 
+  - Simple functions
+ - Joining and reshaping dataframes
+ - Manipulating dataframes
+ - Introduction to the Dplyr approach
+ 
+  
+Week 5
+======
+
+- Practice dplyr
+- Practice ggplot
+  
   
 Contact info
 ======
