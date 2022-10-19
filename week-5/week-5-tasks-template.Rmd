@@ -1,0 +1,134 @@
+---
+title: "Week 5 - Tasks"
+author: "Viki - Misi"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+  prettydoc::html_pretty:
+    highlight: github
+    theme: cayman
+    toc: yes
+
+---
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, fig.pos = 'H') 
+
+```
+
+## Dplyr tasks
+
+Load the `nycflights13` package and **write code**, to reproduce the same result that showed here while you answer the questions!
+
+```{r, message=FALSE}
+
+# comment multiple lines 
+# ctrl + shift + c
+
+# Clear environment
+rm(list=ls())
+
+# install.packages('nycflights13')
+library(nycflights13)
+library( tidyverse )
+
+```
+
+Help
+```{r}
+# df %>%
+#   filter() %>% 
+#   group_by()%>%
+#   summarise( ) %>%
+#   arrange()%>%
+#   head()
+```
+
+
+### Which airplane was in the air the most time?
+
+```{r, dplyr-1, echo=FALSE}
+
+# Your code comes here
+
+```
+
+### What is the best carrier based on arrival delay (where the average `arr_delay` is the least, it can be negative)? Also show the number of flights.
+
+```{r, dplyr-2}
+
+# Your code comes here
+
+```
+
+### What is the name of the arline company which had the most arrival delay on average in August?
+
+```{r, dplyr-3}
+
+# Your code comes here
+
+```
+
+
+### Who is the manufacturer of the flights that flow the most times from `EWR` and how much times it flow?
+
+```{r, dplyr-4}
+
+# Your code comes here
+
+```
+
+
+### How many seats does the aeroplane have which flow the most times from `JFK` to `MCO`?
+
+```{r, dplyr-5}
+
+# Your code comes here
+
+```
+
+
+## Ggplot tasks
+
+Use the first 1000 rows of flights datasets and name your new dataframe as 'df'.
+
+```{r}
+
+# Your code comes here
+  
+```
+
+### Reproduce the ggplots! 
+
+
+```{r, ggplot-1}
+
+# Your code comes here
+
+```
+
+```{r, ggplot-2}
+
+# Your code comes here
+
+```
+
+
+```{r, ggplot-3}
+
+# Your code comes here
+
+```
+
+```{r, ggplot-4}
+
+# Your code comes here
+
+```
+
+```{r, ggplot-5}
+
+# Your code comes here
+
+```
+

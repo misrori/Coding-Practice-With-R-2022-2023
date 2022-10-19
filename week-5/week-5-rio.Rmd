@@ -1,0 +1,133 @@
+---
+title: "Week 5 - Rio"
+author: "Viki - Misi"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+  prettydoc::html_pretty:
+    highlight: github
+    theme: cayman
+    toc: yes
+
+---
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, fig.pos = 'H') 
+
+```
+
+
+```{r libraries, echo = F, include = F}
+
+# Clear environment
+rm(list=ls())
+
+# Import libraries
+library(kableExtra)
+library(tidyverse)
+
+# set working directory
+setwd('C:/Users/User/Documents/GitHub/Coding-Practice-With-R-2022-2023/week-5')
+
+# Define path
+data_in <- paste0(getwd(), "/data_in")
+data_out <- paste0(getwd(), "/data_out")
+
+```
+
+## Import and export files with **rio** package
+
+{rio} is a wrapper around different packages that import/export data in different formats. This package is nice because you don’t need to remember which package to use to import different file formats (SAS, STATA, JSON datasets etc.). 
+
+Read the documentation here: [Documentation](https://cran.r-project.org/web/packages/rio/vignettes/rio.html)
+
+```{r}
+
+if (!("rio" %in% installed.packages())) {
+  install.packages("rio")
+}
+library(rio)
+
+```
+
+### XLSX
+
+```{r rio-xlsx-import}
+
+iris_xlsx <- import(file = paste0(data_in, "/iris.xlsx"))
+kable(head(iris_xlsx)) %>%
+  kable_styling(full_width = F)
+
+```
+
+```{r rio-xlsx-export}
+
+# Export to one sheet
+virginica <- subset(iris_xlsx, Species == "virginica")
+export(virginica, file = paste0(data_out, "/virginica.xlsx"))
+
+```
+
+```{r rio-xlsx-export-multi}
+
+# Or export multiple sheets
+export(list(virginica = subset(iris_xlsx, Species == "virginica"), 
+            setosa = subset(iris_xlsx, Species == "setosa")), paste0(data_out,"/iris_xlsx_multi.xlsx"))
+
+```
+
+### SAV 
+
+```{r rio-sav-import}
+
+iris_sav <- import(file = paste0(data_in, "/iris.sav"))
+kable(head(iris_sav)) %>%
+  kable_styling(full_width = F)
+
+```
+
+With 'tidyverse' ('dplyr') package we can also add the export() to a pipe operator
+
+```{r rio-sav-export}
+
+iris_sav %>%
+  filter(Species == "setosa") %>%
+  export(paste0(data_out, "/virginica.sav"))
+
+```
+
+### JSON
+
+```{r rio-json-import}
+
+iris_json <- import(file = paste0(data_in, "/iris.json"))
+kable(head(iris_json)) %>%
+  kable_styling(full_width = F)
+
+```
+
+```{r rio-json-export}
+
+virginica <- subset(iris_json, Species == "virginica")
+export(virginica, file = paste0(data_out, "/virginica.json"))
+
+```
+
+### Convert datasets
+
+```{r rio-convert-xlsx-json}
+
+# Convert xlsx to JSON
+convert(paste0(data_in, "/iris.xlsx"), paste0(data_out, "/iris_converted.json"))
+
+```
+
+```{r rio-convert-xlsx-json-2}
+
+# Check converted dataset
+iris_json_converted <- import(paste0(data_out, "/iris_converted.json"))
+kable(head(iris_json_converted)) %>%
+  kable_styling(full_width = F)
+
+```
+
