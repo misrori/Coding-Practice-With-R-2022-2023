@@ -16,6 +16,49 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE, fig.pos = 'H')
 
 ```
 
+## Recap tasks use base R functions
+```{r}
+library(rtsdata)
+ticker <- 'TSLA'
+df <- data.frame(ds.getSymbol.yahoo(ticker, from = (Sys.Date() - 250), to = Sys.Date()))
+head(df)
+```
+
+
+### Remove the ticker name of the header 
+```{r, echo=FALSE}
+# Your code comes here
+```
+
+
+### Transform the header to lowercase
+```{r, echo=FALSE}
+# Your code comes here
+```
+
+
+### Create a date column out of the rownames
+```{r, echo=FALSE}
+# Your code comes here
+```
+
+### Create simple index to the rownaes
+```{r, echo=FALSE}
+# Your code comes here
+```
+
+
+### Create a column called `low_high_diff` and calculate the daily percentage change between the high and low value.
+```{r, echo=FALSE}
+# Your code comes here
+```
+
+### Round the new value to two digits
+```{r, echo=FALSE}
+# Your code comes here
+```
+
+
 ## Dplyr tasks
 
 Load the `nycflights13` package and **write code**, to reproduce the same result that showed here while you answer the questions!
