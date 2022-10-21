@@ -11,61 +11,62 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-
+library(kableExtra)
 knitr::opts_chunk$set(warning = FALSE, message = FALSE, fig.pos = 'H') 
 
 ```
+
 
 ## Recap tasks use base R functions
 ```{r}
 library(rtsdata)
 ticker <- 'TSLA'
 df <- data.frame(ds.getSymbol.yahoo(ticker, from = (Sys.Date() - 250), to = Sys.Date()))
-head(df)
+head(df) %>% kbl()
 ```
 
 
 ### Remove the ticker name of the header 
 ```{r, echo=FALSE}
-# Your code comes here
-
-names(df)
-
-names(df) <- gsub(paste0(ticker, '.'), '', names(df), fixed = T)
+names(df) <- gsub(paste0(ticker, '.'), '',names(df), fixed = T)
+head(df) %>% kbl()
 ```
 
 
 ### Transform the header to lowercase
 ```{r, echo=FALSE}
-# Your code comes here
 names(df) <- tolower(names(df))
+head(df) %>% kbl()
 ```
 
 
 ### Create a date column out of the rownames
 ```{r, echo=FALSE}
-# Your code comes here
 df$date <- as.Date(row.names(df))
+head(df) %>% kbl()
 ```
 
-### Create simple index to the rownaes
+### Create simple index to the rownames
 ```{r, echo=FALSE}
-# Your code comes here
 row.names(df) <- 1:nrow(df)
+head(df) %>% kbl()
 ```
 
 
 ### Create a column called `low_high_diff` and calculate the daily percentage change between the high and low value.
 ```{r, echo=FALSE}
-# Your code comes here
 df$low_high_diff <- ((df$high/df$low)-1)*100
+head(df) %>% kbl()
 ```
 
 ### Round the new value to two digits
 ```{r, echo=FALSE}
-# Your code comes here
-df$low_high_diff <- round(df$low_high_diff,2) 
+df$low_high_diff <- round(df$low_high_diff,2)
+head(df) %>% kbl()
 ```
+
+
+
 
 
 ## Dplyr tasks
@@ -99,35 +100,20 @@ Help
 
 ### Which airplane was in the air the most time?
 
-```{r, dplyr-1, echo=FALSE}
-flights %>% 
+```{r, dplyr-1, echo=FALSE,message=F, warning=FALSE}
+
+flights %>%
   filter(!is.na(tailnum)) %>% 
-  group_by(tailnum) %>% 
-  summarise(sum_in_air = sum(air_time, na.rm = T)) %>% 
-  arrange(-sum_in_air) %>% 
+  group_by(tailnum)%>%
+  summarise('in_air'= sum(air_time) ) %>%
+  arrange(-in_air) %>%
   head(1)
 
-flights %>% 
-  filter(!is.na(tailnum)) %>% 
-  group_by(tailnum) %>% 
-  summarise(sum_in_air = sum(air_time, na.rm = T),
-            number_of_times = n())
- 
-
-flights %>% 
-  summarise(number_of_flight = n())
-nrow(flights)
-names(flights)
-# Your code comes here
-
-flights %>% 
-  group_by(carrier) %>% 
-  summarise(n())
 ```
 
 ### What is the best carrier based on arrival delay (where the average `arr_delay` is the least, it can be negative)? Also show the number of flights.
 
-```{r, dplyr-2}
+```{r, dplyr-2, echo=FALSE, message=F, warning=FALSE}
 
 # number of flights from origin
 flights %>%
@@ -141,16 +127,17 @@ flights %>%
 
 ### What is the name of the arline company which had the most arrival delay on average in August?
 
-```{r, dplyr-3}
+```{r, dplyr-3, echo=FALSE, message=F, warning=FALSE}
 
-df_1 <- flights %>% 
-  filter(month == 8) %>% 
-  group_by(carrier) %>% 
-  summarise(mean_delay = mean(arr_delay, na.rm=T)) %>% 
+t <- 
+flights %>%
+  filter(month==8) %>% 
+  group_by(carrier)%>%
+  summarise('mean_delay'=mean(arr_delay, na.rm = T)) %>% 
   arrange(-mean_delay) %>% 
-  head(1)
-  
-merge(df_1, airlines, by = 'carrier') %>% 
+  head(1) 
+
+merge(t, airlines, by = 'carrier') %>% 
   select(name)
 
 ```
@@ -158,66 +145,18 @@ merge(df_1, airlines, by = 'carrier') %>%
 
 ### Who is the manufacturer of the flights that flow the most times from `EWR` and how much times it flow?
 
-```{r, dplyr-4}
-
-# Your code comes here
+```{r, dplyr-4, echo=FALSE}
+t <- 
 flights %>% 
-  filter(origin == 'EWS') %>% 
-  group_by() 
-  
-```
+  filter(!is.na(tailnum),
+         origin%in%c('EWR')) %>% 
+  group_by(tailnum) %>% 
+  summarise('flight_times'= n()) %>% 
+  arrange(-flight_times) %>% 
+  head(1)
 
-
-### How many seats does the aeroplane have which flow the most times from `JFK` to `MCO`?
-
-```{r, dplyr-5}
-
-# Your code comes here
-
-```
-
-
-## Ggplot tasks
-
-Use the first 1000 rows of flights datasets and name your new dataframe as 'df'.
-
-```{r}
-
-# Your code comes here
-  
-```
-
-### Reproduce the ggplots! 
-
-
-```{r, ggplot-1}
-
-# Your code comes here
-
-```
-
-```{r, ggplot-2}
-
-# Your code comes here
-
-```
-
-
-```{r, ggplot-3}
-
-# Your code comes here
-
-```
-
-```{r, ggplot-4}
-
-# Your code comes here
-
-```
-
-```{r, ggplot-5}
-
-# Your code comes here
+merge(t,planes, by = 'tailnum' ) %>% 
+    select(tailnum, manufacturer, flight_times)
 
 ```
 
