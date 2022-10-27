@@ -1,0 +1,112 @@
+---
+title: "Week 6 - Tasks"
+author: "Viki - Misi"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+  prettydoc::html_pretty:
+    highlight: github
+    theme: cayman
+    toc: yes
+
+---
+
+```{r setup, include=FALSE}
+library(kableExtra)
+library(nycflights13)
+library(dplyr)
+library(ggplot2)
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, fig.pos = 'H') 
+
+```
+
+
+### How many seats has the airplane which flow the most times from `JFK` to `MCO`?
+
+```{r, dplyr-5, echo=FALSE}
+
+flights %>% 
+
+
+```
+
+## The best carriers based on arriving (on average the arr_delay is the least), colors= limegreen and cyan4
+```{r, echo=FALSE, message=F, warning=FALSE}
+# number of flights from origin
+flights %>%
+
+```
+
+
+
+## Average arrival delay by destinations **name** in August
+
+```{r, echo=FALSE, message=F, warning=FALSE}
+
+flights %>%
+
+
+```
+
+
+## The most popular airiles **name** from `JFK`
+```{r, echo=FALSE}
+
+flights %>%
+
+
+```
+
+
+
+
+## Ggplot tasks
+
+Use the first 1000 rows of flights datasets 
+
+```{r}
+df <- flights %>% head(1000)
+```
+
+
+### Reproduce the ggplots! 
+
+```{r, echo=FALSE, warning=F, message=F, warning=FALSE}
+
+
+# http://statseducation.com/Introduction-to-R/modules/graphics/cont/
+
+#1
+ggplot(df, aes(x=distance, y= arr_delay))
+
+```
+
+
+```{r, echo=FALSE, warning=F, message=F, warning=FALSE}  
+
+
+
+```
+
+
+```{r, echo=FALSE, warning=F, message=F, warning=FALSE}  
+
+
+```
+
+
+```{r, echo=FALSE, warning=F, message=F, warning=FALSE}  
+
+```
+
+
+```{r, echo=FALSE, warning=F, message=F, warning=FALSE}  
+ 
+ 
+```
+
+
+Violin plot with theme_void
+```{r, echo=FALSE, warning=F, message=F, warning=FALSE}  
+ 
+```
+
