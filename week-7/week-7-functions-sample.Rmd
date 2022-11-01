@@ -1,0 +1,424 @@
+---
+title: "Week 7 - Functions"
+author: "Viki - Misi"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+  prettydoc::html_pretty:
+    highlight: github
+    theme: cayman
+    toc: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Introduction to conditional statements:  **if**,  **if ... else** and **if ... else if ... else** statements, the **ifelse()** function
+
+### The if statement
+
+We can evaluate whether a condition is met with the **if** statement.
+
+| The syntax of if statement is:
+|
+| if (**condition**) {
+|     **statement**
+| }
+
+We check whether the value of the 'number' object is equal to 1:
+
+```{r if1}
+# Assign a value to the number object
+number <- 1
+
+if (number == 1) {
+  print("It is 1.")
+}
+```
+
+We check whether the value of the 'number' object is equal to 0:
+
+```{r if2}
+
+if (number == 0) {
+  print("It is 0.")
+}
+
+```
+
+In case the condition is not met nothing is returned.
+
+### The if ... else statement
+
+We can evaluate which a condition is met with the **if ...else** statement.
+
+| The syntax of if ... else statement is:
+|
+| if (**condition**) {
+|     **statement1**
+| } else {
+|     **statement2**
+| }
+
+We check whether the value of the 'number' object is equal to 1:
+
+```{r if_else1}
+
+if (number == 1) {
+  print("It is 1.")
+} else {
+  print("It is not 1.")
+}
+
+```
+
+
+### The if ... else if ... else statement
+
+We can also add multiple conditions with the **else if** statement.
+
+| The syntax of if ...else if ... else statement is:
+|
+| if (**condition1**) {
+|     **statement1**
+| } else if (**condition2**) {
+|     **statement2**
+| } else if (**condition3**) {
+|     **statement3**
+| } else {
+|     **statement4**
+| }
+
+And we can create a function from it: 
+
+```{r if_elseif_else1}
+
+check_number_complex <- function(number) {
+  if (number == 1) {
+    print("It is 1.")
+  } else if (number == 0) {
+    print("It is 0.")
+  } else if (class(number) != "numeric") {
+    print("It is not a number!")
+  } else {
+    print("It is neither 1 nor 0. But it is a number.")
+  }
+}
+
+```
+And then call the function:
+
+```{r if_elseif_else1_eval}
+
+check_number_complex(1)
+check_number_complex(0)
+check_number_complex(100)
+check_number_complex("Misi")
+
+```
+
+Or we can add multiple conditions within one if-else branch:
+
+| The syntax of if ...else with multiple conditions within one branch:
+|
+| if (**condition1 & condition2**) {
+|     **statement1**
+| } else {
+|     **statement2**
+| }
+|
+| if (**condition1 | condition2**) {
+|     **statement1**
+| } else {
+|     **statement2**
+| }
+
+```{r if_else2}
+
+check_number_or <- function(number) {
+  if (number == 1 | number == 0) {
+    print("It is 1.")
+  } else {
+    print("It is neither 1 nor 0.")
+  }
+}
+
+```
+
+```{r if_else2_eval}
+
+check_number_or(1)
+check_number_or(100)
+
+```
+
+### The ifelse() function
+
+We can also evaluate whether a condition is met with the **ifelse()** function
+
+| The syntax of ifelse() funtion is:
+|
+| ifelse(conditon, statement1, statement2)
+
+```{r ifelse1}
+
+ifelse(number == 1, "It is 1.", "It is not 1.")
+ifelse(number == 0, "It is 1.", "It is not 1.")
+
+```
+# Conditional statements tasks
+
+Create a function that evaluates whether a number is divisible by 2 and/or 3. It should have 4 outcomes: the number is divisible by 2, the number is divisible by 3, the number is divisible by both 2 and 3, the number is neither divisible by 2 nor by 3. Check your function with 6, 10, 15, and 17.
+
+```{r conditional_task1}
+
+# Your code comes here.
+
+# Solution
+check_divisibility <- function(number) {
+  if (number%%2 == 0 & number%%3 == 0) {
+    print("It is divisble by both 2 and 3.")
+  }
+  else if(number%%2 == 0) {
+    print("It is divisible by 2.")
+  }
+  else if (number%%3 == 0) {
+    print("It is divisible by 3.")
+  }
+  else("It is neither divisible by 2 nor by 3.")
+}
+
+check_divisibility(6)
+check_divisibility(10)
+check_divisibility(15)
+check_divisibility(17)
+
+```
+
+Reproduce the check_number_complex() function but now use the ifelse() function.Check your function with 1, 0, "Misi" and 10.
+
+```{r conditional_task2}
+
+# Your code comes here.
+
+# Solution
+check_number_complex_2 <- function(number) {
+  ifelse (number == 1, "It is 1.",
+          ifelse(number == 0, "It is 0.",
+                 ifelse(class(number) != "numeric", "It is not a number!", 
+                        "It is neither 1 nor 0. But it is a number.")))
+}
+
+
+check_number_complex_2(1)
+check_number_complex_2(0)
+check_number_complex_2("Misi")
+check_number_complex_2(10)
+```
+# For loops
+
+### Simple for loop
+
+We can iterate over a sequence with the **for** loop.
+
+| **The syntax of a simple for loop:**
+|
+| for (i in vector) {
+|   statement(s) with the [i] index 
+| }
+
+Let's create a sequence of even numbers from the odd_numbers vector!
+
+```{r for_simple1}
+
+odd_numbers <- seq(1, 10, by = 2)
+odd_numbers
+
+```
+
+```{r for1_simple2}
+even_numbers <- NA
+
+for (i in 1:length(odd_numbers)) {
+  even_numbers[i] <- odd_numbers[i] + 1
+}
+even_numbers
+
+```
+
+Note that we need to create an empty vector for the even numbers in advance!
+
+### For loop with dataframes
+
+We can iterate over the columns of a data frame with the **for** loop:
+
+```{r for_df1}
+
+df <- data.frame(numbers = 1:5, letters = c("a", "b", "c", "d", "e"),
+                 stringsAsFactors = F)
+df
+
+```
+
+Let's multiply the values in the numbers column with 2 and concatenate "a" to the items of the letters column!
+
+```{r for_df2}
+
+for (i in 1:nrow(df)){
+  df$numbers[i] <- df$numbers[i] * 2
+}
+df
+
+```
+
+```{r for_df3}
+
+for (j in 1:nrow(df)){
+  df$letters[j] <- paste0(df$letters[j], "a")
+}
+df
+
+```
+
+### For loops with conditional statements
+
+We can also combine for loops and conditional statements.
+
+```{r for_conditional1}
+
+for (i in 1:nrow(df)) {
+  if (df$number[i]%%4 == 0) {
+    print("It is divisible by 4.")
+  }
+  else {
+    print("It is not divisible by 4 but it is an even number.")
+  }
+}
+
+```
+And we can create a function from the for loop.
+
+```{r for_conditional2}
+
+check_divisibility_2 <- function(input_df, column) {
+  for (i in 1:nrow(input_df)) {
+    if (input_df[i, column]%%4 == 0) {
+      print("It is divisible by 4.")
+    }
+    else {
+      print("It is not divisible by 4 but it is an even number.")
+    }
+  }
+}
+  
+check_divisibility_2(df, number)
+
+```
+
+# Introduction to functions
+
+| **The syntax of a simple function:**
+|
+| function_name <- function(**arguments (with default value)**) { 
+|     **Do something**
+|     return(output)
+| }
+
+We can create functions in the main script and save it as an object:
+
+```{r functions1}
+
+exponent_multiply <- function(x = 2, y = 2, z = 2) {
+  print(paste0(x, " raised to the power of ", y, " and multiplied by ", z, 
+              ". The result is ", x ^ y * z, "."))
+}
+
+exponent_multiply(2, 4, 6)
+
+```
+Or we can call the functions from an external script:
+
+```{r functions2}
+
+source("week-7-functions.R")
+
+greet_person_external("Hola", "Amigos")
+greet_person_random()
+
+```
+
+If we don't specify the return value it returns with the result from the last operation.
+
+
+```{r functions3}
+
+exponent <- function(x, y = 2) {
+  x ^ y
+  x + 2
+}
+
+exponent(4,2)
+```
+
+
+```{r functions4}
+exponent <- function(x, y = 2) {
+  z = x ^ y
+  n = x + 2
+  return(z)
+}
+
+exponent(4,2)
+
+```
+
+# Functions and for loops tasks
+
+
+Create a dice function that will take the number of sides of the dice as input and prints out the results from rolling the dice.
+
+```{r functions_task1}
+
+# Your code comes here
+
+# Solution
+dice <- function(side_number=6) {
+  x <- c(1:side_number)
+  print(paste0("The result is: ",sample(x,1)) )
+}
+
+dice(6)
+  
+```
+
+Create a function that:
+
+* First evaluates whether the type of the column is integer or not.
+* If it is an integer type column then it iterates over the values of it and multiplies each item with a pre-defined multiplier. Finally it prints out the resulting dataframe.
+* If it is not an integer type column then it prints out that "This is not an integer type column".
+
+The function should have 3 input arguments: the name of the input dataframe, the name of the column and the value of the multiplier. Check your function with the following inputs: (df, "numbers", 2) and (df, "letters", 3)
+
+```{r functions_task2}
+
+# Your code comes here
+
+# Solution
+df_multiply <- function(input_df, column, multiply_by) {
+  if (class(input_df[[column]]) == "numeric") {
+    for (i in 1:nrow(input_df)){
+      input_df[i, "numbers_multiplied"] <- input_df[i, column] * multiply_by
+    }
+  return(input_df)
+  } else {
+    print("This is not an integer type column")
+  }
+}
+
+df_multiply(df, "numbers", 2)
+df_multiply(df, "letters", 3)
+# df_new <- df_multiply(df, "numbers", 2)
+
+```
+
