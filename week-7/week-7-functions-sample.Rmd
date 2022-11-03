@@ -175,24 +175,7 @@ Create a function that evaluates whether a number is divisible by 2 and/or 3. It
 
 # Your code comes here.
 
-# Solution
-check_divisibility <- function(number) {
-  if (number%%2 == 0 & number%%3 == 0) {
-    print("It is divisble by both 2 and 3.")
-  }
-  else if(number%%2 == 0) {
-    print("It is divisible by 2.")
-  }
-  else if (number%%3 == 0) {
-    print("It is divisible by 3.")
-  }
-  else("It is neither divisible by 2 nor by 3.")
-}
 
-check_divisibility(6)
-check_divisibility(10)
-check_divisibility(15)
-check_divisibility(17)
 
 ```
 
@@ -202,19 +185,7 @@ Reproduce the check_number_complex() function but now use the ifelse() function.
 
 # Your code comes here.
 
-# Solution
-check_number_complex_2 <- function(number) {
-  ifelse (number == 1, "It is 1.",
-          ifelse(number == 0, "It is 0.",
-                 ifelse(class(number) != "numeric", "It is not a number!", 
-                        "It is neither 1 nor 0. But it is a number.")))
-}
 
-
-check_number_complex_2(1)
-check_number_complex_2(0)
-check_number_complex_2("Misi")
-check_number_complex_2(10)
 ```
 # For loops
 
@@ -382,13 +353,7 @@ Create a dice function that will take the number of sides of the dice as input a
 
 # Your code comes here
 
-# Solution
-dice <- function(side_number=6) {
-  x <- c(1:side_number)
-  print(paste0("The result is: ",sample(x,1)) )
-}
 
-dice(6)
   
 ```
 
@@ -404,20 +369,6 @@ The function should have 3 input arguments: the name of the input dataframe, the
 
 # Your code comes here
 
-# Solution
-df_multiply <- function(input_df, column, multiply_by) {
-  if (class(input_df[[column]]) == "numeric") {
-    for (i in 1:nrow(input_df)){
-      input_df[i, "numbers_multiplied"] <- input_df[i, column] * multiply_by
-    }
-  return(input_df)
-  } else {
-    print("This is not an integer type column")
-  }
-}
-
-df_multiply(df, "numbers", 2)
-df_multiply(df, "letters", 3)
 # df_new <- df_multiply(df, "numbers", 2)
 
 ```
