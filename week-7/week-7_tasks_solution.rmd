@@ -1,0 +1,104 @@
+---
+title: "Week 6 - Tasks"
+author: "Viki - Misi"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+  prettydoc::html_pretty:
+    highlight: github
+    theme: cayman
+    toc: yes
+
+---
+
+```{r setup, include=FALSE}
+library(kableExtra)
+library(nycflights13)
+library(dplyr)
+library(ggplot2)
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, fig.pos = 'H') 
+
+```
+
+
+## Ggplot tasks
+
+Use the first 1000 rows of flights datasets 
+
+```{r}
+df <- flights %>% head(1000)
+```
+
+
+
+
+
+### Reproduce the ggplots! 
+
+
+```{r, echo=FALSE, warning=F, message=F, warning=FALSE}
+
+
+# http://statseducation.com/Introduction-to-R/modules/graphics/cont/
+
+#1
+ggplot(df, aes(x=distance, y= arr_delay, color=carrier)) +
+  geom_point()+
+  labs(x='Distance', y='Arrival delay', title = "Arrival delay and distance by carrier", subtitle = 'Theme=theme_bw, plot=geom_point') +
+  theme_bw()
+
+```
+
+
+```{r, echo=FALSE, warning=F, message=F, warning=FALSE}  
+
+#2
+ggplot(df, aes(x=distance, y= arr_delay, size=air_time)) +
+  geom_point()+
+  labs(x='Distance', y='Arrival delay', title = "Arrival delay and distance by air_time", subtitle = 'Theme=theme_classic, plot=geom_point') +
+  theme_classic()
+```
+
+
+```{r, echo=FALSE, warning=F, message=F, warning=FALSE}  
+
+
+#3
+ggplot(df, aes(x=distance, y= arr_delay, shape = carrier)) +
+  geom_point()+
+  labs(x='Distance', y='Arrival delay', title = "Arrival delay and distance by carrier", subtitle = 'Theme=theme_dark, plot=geom_point') +
+  theme_dark()
+```
+
+
+```{r, echo=FALSE, warning=F, message=F, warning=FALSE}  
+
+ 
+ggplot(df, aes(x=distance, y= arr_delay)) +
+  geom_point() +
+  facet_wrap(~carrier)+
+  labs(x='Distance', y='Arrival delay', title = "Arrival delay and distance by carrier", subtitle = 'Theme=theme_linedraw, plot=geom_point') +
+  theme_linedraw()
+```
+
+
+```{r, echo=FALSE, warning=F, message=F, warning=FALSE}  
+ 
+ 
+ggplot(df, aes(x=distance, y= arr_delay)) + 
+  geom_point() +
+  geom_smooth()+
+  labs(x='Distance', y='Arrival delay', title = "Arrival delay and distance", subtitle = 'Theme=theme_minimal, plot=geom_point with geom smoooth') +
+  theme_minimal()
+```
+
+
+Violin plot with theme_void
+```{r, echo=FALSE, warning=F, message=F, warning=FALSE}  
+ 
+ggplot(df, aes(x=carrier, y= arr_delay)) + 
+  geom_violin()+
+  labs(x='Carrier', y='Distance') +
+  theme_void()
+
+```
+

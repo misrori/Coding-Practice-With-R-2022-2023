@@ -109,7 +109,6 @@ fl$my_date <- paste0(fl$year, '-',
                      ifelse(fl$day<10, paste0('0', fl$day), fl$day )
 )
 
-2022-10-13
 fl %>% select(c('year', 'month', 'day', 'my_date')) %>% head()
 
 ```

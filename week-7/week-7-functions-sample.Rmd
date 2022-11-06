@@ -324,12 +324,12 @@ If we don't specify the return value it returns with the result from the last op
 
 ```{r functions3}
 
-exponent <- function(x, y = 2) {
-  x ^ y
+exponent <- function(x, y=4) {
+  return(x ^ y)
   x + 2
 }
 
-exponent(4,2)
+exponent(4,5)
 ```
 
 
@@ -352,8 +352,18 @@ Create a dice function that will take the number of sides of the dice as input a
 ```{r functions_task1}
 
 # Your code comes here
+dice <- function(x) {
+
+   
+  return(sample(1:x,1))
+}
+dice(10)
 
 
+while (10) {
+  print('hello')
+}
+x<- 10
   
 ```
 
