@@ -1,0 +1,42 @@
+---
+title: "Week 7 - Functions"
+author: "Viki - Misi"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+  prettydoc::html_pretty:
+    highlight: github
+    theme: cayman
+    toc: yes
+---
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+source('solutions.R')
+```
+
+# Reproduce the functions
+
+# Random walk
+```{r,message=FALSE, warning=FALSE}
+get_random_walk(forward_length = 1,backward_length = 0.8,distance = 250)
+
+
+```
+
+
+# Download financial data by ticker
+```{r,message=FALSE, warning=FALSE}
+# library(data.table)
+# library(rtsdata)
+# library(pracma)
+# library(TTR)
+
+# all parameter should be default except the ticker
+df_aapl <- get_one_ticker('AAPL', start_date = "2000-01-01", end_date = Sys.Date(), mas = c(50, 100, 200), calcutate_mas = T, calculate_rsi=T,  plot_res=T)
+
+df_aapl %>% head(3)
+
+```
+```{r}
+get_one_ticker('TSLA',plot_res=F) %>% tail(3)
+```
+
