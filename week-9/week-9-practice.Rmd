@@ -1,0 +1,131 @@
+
+---
+title: "Week 9 - Practice"
+author: "Viki - Misi"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+    prettydoc::html_pretty:
+      theme: cayman
+      highlight: github
+      toc: true
+---
+
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, fig.pos = 'H', fig.align='center', fig.height=3, fig.width=5.5) 
+
+```
+
+
+## Dataset 
+
+The [birthweight](https://rdrr.io/cran/MASS/man/birthwt.html) data from the **MASS** package was collected at Baystate Medical Center, Springfield, Mass during 1986. The data set contains risk factors associated with low infant birth weight. We will look at how the mothers actions (whether the mother smoked during pregnancy) and health during pregnancy affects the birth weight of a baby.
+ 
+```{r import}
+
+library(MASS)
+
+data(birthwt, package = "MASS")
+head(birthwt)
+
+```
+ 
+**Variables**:
+
+* bwt: birth weight in grams. - **Outcome**
+* smoke: smoking status during pregnancy.
+* race: mother's race (1 = white, 2 = black, 3 = other).
+* age: mother's age in years.
+* lwt: mother's weight in pounds at last menstrual period.
+* ptl: number of previous premature labours.
+* ht: history of hypertension.
+* ui: presence of uterine irritability.
+* ftv: number of physician visits during the first trimester.
+
+## Data preparation
+
+Convert the categorical variables into factors!
+
+```{r data-work, echo = F}
+
+library(tidyverse)
+birthwt <- birthwt %>%
+  # Your code comes here
+  
+```
+
+## Compare averages (Unconditional means)
+
+Create a summary table of the babies' birth weight by *smoke*. Use the **modelsummary** package.
+
+```{r compare-averages, echo = F}
+
+library(modelsummary)
+library(kableExtra)
+
+P95 <- function(x){quantile(x,0.95,na.rm=T)}
+P05 <- function(x){quantile(x,0.05,na.rm=T)}
+
+# Your code comes here
+
+```
+
+## Compare averages (Conditional means)
+
+Create a summary table of the babies' birth weight by *smoke* and *race*.
+
+```{r compare-averages-by-2-variables, echo = F}
+
+# Your code comes here
+
+```
+
+Visualize the results!
+
+```{r compare-averages-by-2-variables-viz, echo = F}
+
+# Your code comes here
+
+```
+
+## Regression analysis
+
+* Regress the birth weight of the babies on **smoke**, on **smoke** and **race** and extend the regressions with the rest of the predictors! 
+* Save the results of your regressions as reg1, reg2 etc.
+* Use the [fixest](https://www.rdocumentation.org/packages/fixest/versions/0.8.4/topics/feols) package for the regressions and the [modelsummary](https://vincentarelbundock.github.io/modelsummary/articles/modelsummary.html) package to create the regression table!
+
+```{r regression, echo = F}
+
+library(fixest)
+
+# Your code comes here
+
+reg1 <- 
+reg2 <- 
+reg3 <- 
+reg4 <- 
+reg5 <- 
+reg6 <- 
+
+```
+
+# Confidence intervals
+
+* Extract the coefficients, standard errors and confidence intervals of the *smoke* parameter
+* Create a summary table with the **smoke** coefficients, standard errors and confidence intervals from the 6 regressions
+* Visualize the results
+
+```{r SI, echo = F}
+
+library(data.table)
+
+# Hint
+i <- 1
+reg <- eval(as.name(paste0('reg',i)))
+
+# Your code comes here
+
+```
+
+
