@@ -1,0 +1,263 @@
+---
+title: "Week-10"
+author: "Viki-Misi"
+date: "November 24, 2022"
+output:
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
+---
+
+```{r}
+# source('lotto.R')
+```
+
+# Lotto task
+
+Make function for lotto simulation and compare your results with the user input
+```{r}
+# we have a function that ask numbers from users
+min_number <- 1
+max_number  <- 90
+number_of_choose <- 5
+
+get_numbers_from_user <- function(min_number, max_number, number_of_choose) {
+  numbers <- c()
+  while (length(numbers)<number_of_choose) {
+    t_number <- readline(prompt = paste0('Please give me the ', length(numbers)+1 ,'. number between ' , min_number, ' and ', max_number, '. Your number:'))
+    if (grepl('.',t_number, fixed = T) | grepl(',',t_number, fixed = T)   ) {
+      print(paste0('Please write integers between: ',min_number, ' and ', max_number, '!' ))
+      next()
+    }
+    t_number  <- as.integer(t_number)
+    if (t_number%in% numbers) {
+      print(paste0(t_number, ' is already in your numbers!' ))
+      next()
+    }
+    if (is.na(t_number) ) {
+      print('Please write numbers number')
+    }
+    else {
+      if (t_number>=min_number & t_number<=max_number ) {
+        numbers <- c(numbers, t_number)
+      } else{
+        print(paste0('The number should be between: ', min_number, ' and ', max_number, '!' )) 
+      }
+    }
+  }
+  numbers <- sort(numbers)
+  return(sort(numbers))
+}
+
+# get_numbers_from_user(1,90, 5)
+```
+
+
+
+
+
+
+```{r, include=T}
+
+library(tidyverse)
+library(data.table)
+library(janitor)
+library(kableExtra)
+library(lubridate)
+
+```
+
+## Get the data
+You can get the data from [Github](https://github.com/misrori/ceu-ba-mentoring-priv/tree/2021-2022/week-7/Data).
+
+```{r import}
+
+IMDB_50 <- read.csv()
+IMDB_top200 <- read.csv()
+
+```
+
+## Merge the data sets
+We have our data in two tables, so lets merge them together.
+
+```{r merge}
+
+
+```
+
+
+## Drop unnecessary columns
+
+Delete the followings:
+
+* everything with *tomato*
+* Poster
+* Website
+* Response
+* imdbID
+
+```{r drop-columns}
+
+df <- df %>%
+  
+```
+
+## Deal with column names
+
+Rename some columns
+
+* *X* to **IMDB_rank**
+* *Runtime* to **Lengt_min**
+
+```{r column-names1}
+
+df <- df %>%
+ 
+
+```
+
+
+Make sure all names are lower case and are separeted by _ in case needed.
+
+<details>
+  <summary>Hint</summary>
+  Check out **janitor** package.
+</details>
+
+```{r column-names2}
+
+
+```
+
+## Change data types
+
+
+The `IMDB rank` should be NOT numeric.
+
+```{r change-data-types2}
+
+
+```
+
+
+`metascore`, `imdb_votes` and `box office` should be numeric.
+
+<details>
+  <summary>Hint 1</summary>
+  Keep only numbers in the column.
+</details>
+
+<details>
+  <summary>Hint 2</summary>
+  Substitute N/A values with the proper ones.
+</details>
+
+```{r change-data-types3}
+
+df <- df %>% 
+  
+# gsub("[ab#]", "","sdgefgroasfdsbbbsafds####asfe")
+```
+
+
+## Start looking at columns
+
+#### `length_min`
+
+This should be numeric, without the *min* word.
+
+```{r look-at-data2}
+
+df <- df %>% 
+
+```
+
+
+#### `genre`
+
+There are 1, 2 or 3 genre given for a film, to be able to deal with this we need them in different columns. Also pay attention to extra white spaces!
+
+```{r look-at-data3}
+
+df <- df %>% 
+
+```
+
+
+#### `director`
+
+Keep only the first one listed.
+
+```{r look-at-data4}
+
+df <- df %>% 
+  
+```
+
+
+#### `ratings_value`
+
+Should be numeric so /10  is not needed.
+
+```{r look-at-data8}
+
+df <- df %>% 
+
+```
+
+#### `Awards`
+
+This will be the difficult part.
+
+As a first step create 4 new columns:
+
+* wins
+* nominations
+* oscars
+* oscar nominations
+
+
+
+
+Create 4 functions to extract the number from the text in the `awards` column. 
+
+<details>
+  <summary>Hint 1</summary>
+  Use `grepl()` to determine if the word *wins/nominations.|nomination./Won&Oscar/Nominated&Oscar* are in the text.
+</details>
+
+<details>
+  <summary>Hint 2</summary>
+  Use `strsplit()` to create a list of the words.
+</details>
+
+<details>
+  <summary>Hint 3</summary>
+  Make sure you deal with *wins.* vs *wins* or *nominations.* vs *nomination.*.
+</details>
+
+<details>
+  <summary>Hint 4</summary>
+  Use `which()` to find on which place the searched word (*wins/nominations./Won/Nominated*) is, and return the value from the list before this. In case the searched word is not in the sentence return NA.
+</details>
+
+
+```{r, functions }
+
+
+
+```
+
+
+Loop through the rows of the data frame and get the number of wins and nominations in the 4 predefined columns using the functions created.
+
+```{r functions2}
+
+
+
+```
+
+
+
+
+
