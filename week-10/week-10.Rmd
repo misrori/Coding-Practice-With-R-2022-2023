@@ -9,7 +9,7 @@ output:
 ---
 
 ```{r}
-# source('lotto.R')
+source('lotto.R')
 ```
 
 # Lotto task
@@ -46,36 +46,18 @@ get_numbers_from_user <- function(min_number, max_number, number_of_choose) {
     }
   }
   numbers <- sort(numbers)
-  return(numbers)
+  return(sort(numbers))
 }
 
-t <- get_numbers_from_user(1,90, 5)
-```
-
-
-```{r}
-simulate_lotto <- function(min_number, max_number, number_of_choose) {
-  # call get_numbers_from_user
-  user_numbers <- get_numbers_from_user(min_number, max_number, number_of_choose)
-  winning_numbers <- sort(sample(min_number:max_number, number_of_choose))
-  # compare
-  match <- sum(user_numbers%in%winning_numbers)
-  
-  paste0('Thank you, your numbers are: ', paste0(user_numbers, collapse = ', '))
-  paste0('And the winning numbers are: ', paste0(winning_numbers, collapse = ', '))
-  paste0("You got:  ",match," correct")
-  sprintf("You got:  %s correct", match)
-
-# [1] "Thank you, your numbers are: 2, 3, 4, 5, 6, 7, 34"
-# [1] "And the winning numbers are: 6, 15, 17, 27, 31, 34, 35"
-# [1] "You got:  2 correct"
-}
+# get_numbers_from_user(1,90, 5)
 ```
 
 
 
 
-```{r, include=T}
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 
 library(tidyverse)
 library(data.table)
@@ -90,8 +72,8 @@ You can get the data from [Github](https://github.com/misrori/ceu-ba-mentoring-p
 
 ```{r import}
 
-IMDB_50 <- read.csv('Data/IMDB_50.csv')
-IMDB_top200 <- read.csv('Data/IMDB_top200.csv')
+IMDB_50 <- read.csv("Data/IMDB_50.csv", stringsAsFactors = T)
+IMDB_top200 <- read.csv("Data/IMDB_top200.csv", stringsAsFactors = T)
 
 ```
 
@@ -99,7 +81,8 @@ IMDB_top200 <- read.csv('Data/IMDB_top200.csv')
 We have our data in two tables, so lets merge them together.
 
 ```{r merge}
-df <- rbind(IMDB_50, IMDB_top200)
+
+df <- rbind(IMDB_50,IMDB_top200)
 
 ```
 
@@ -117,7 +100,8 @@ Delete the followings:
 ```{r drop-columns}
 
 df <- df %>%
-  
+  select(-contains("tomato"), -c(Poster, Website, Response, imdbID))
+
 ```
 
 ## Deal with column names
@@ -130,7 +114,7 @@ Rename some columns
 ```{r column-names1}
 
 df <- df %>%
- 
+  rename(IMDB_rank = X, Length_min = Runtime)
 
 ```
 
@@ -144,6 +128,7 @@ Make sure all names are lower case and are separeted by _ in case needed.
 
 ```{r column-names2}
 
+df <- janitor::clean_names(df)
 
 ```
 
@@ -154,6 +139,8 @@ The `IMDB rank` should be NOT numeric.
 
 ```{r change-data-types2}
 
+df <- df %>% 
+  mutate(imdb_rank = as.factor(imdb_rank))
 
 ```
 
@@ -173,7 +160,10 @@ The `IMDB rank` should be NOT numeric.
 ```{r change-data-types3}
 
 df <- df %>% 
-  
+  mutate(metascore = as.numeric(gsub('N/A', NA, metascore)),
+         imdb_votes = as.numeric(gsub(",", "", imdb_votes)),
+         box_office = gsub("[$,]", "", gsub('N/A', NA, box_office)))
+
 # gsub("[ab#]", "","sdgefgroasfdsbbbsafds####asfe")
 ```
 
@@ -187,6 +177,7 @@ This should be numeric, without the *min* word.
 ```{r look-at-data2}
 
 df <- df %>% 
+  mutate(length_min = as.numeric(str_replace(length_min, " min", "")))
 
 ```
 
@@ -198,6 +189,7 @@ There are 1, 2 or 3 genre given for a film, to be able to deal with this we need
 ```{r look-at-data3}
 
 df <- df %>% 
+  separate(col = genre, into = c('genre1','genre2','genre3'), sep = ",",remove = F)
 
 ```
 
@@ -209,6 +201,8 @@ Keep only the first one listed.
 ```{r look-at-data4}
 
 df <- df %>% 
+   separate(director , "," , into = c("director","garbage") ) %>% 
+   select(-garbage)
   
 ```
 
@@ -220,6 +214,7 @@ Should be numeric so /10  is not needed.
 ```{r look-at-data8}
 
 df <- df %>% 
+   mutate(ratings_value = as.numeric(gsub("/10","",ratings_value)))
 
 ```
 
@@ -262,7 +257,43 @@ Create 4 functions to extract the number from the text in the `awards` column.
 
 ```{r, functions }
 
+get_wins <- function(t) {
+ if (grepl("wins", t)) {
+   pieces <- strsplit(t," ", fixed = TRUE)[[1]]
+   pieces <- gsub("wins.","wins", pieces)
+   return(as.numeric(pieces[which(pieces == "wins")-1]))  
+ } else {
+   return(NA)
+ }
+}
 
+get_nominations <- function(t) {
+  if (grepl("nominations.", t) | grepl("nomination.", t) ) {
+    pieces <- strsplit(t," ", fixed = TRUE)[[1]]
+    pieces <- gsub("nomination.","nominations.", pieces, fixed = TRUE)
+    return(as.numeric(pieces[which(pieces == "nominations.")-1]))  
+  } else {
+    return(NA)
+  }
+}
+
+get_oscar <- function(t) {
+  if (grepl("Won", t) & grepl("Oscar", t) ){
+    pieces <- strsplit(t, " ", fixed = TRUE)[[1]]
+    return(as.numeric(pieces[which(pieces == "Won") + 1]))
+  } else{
+    return(NA)
+  }
+}
+
+get_oscar_nominations <- function(t) {
+  if (grepl("Nominated", t) & grepl("Oscar", t) ){
+    pieces <- strsplit(t, " ", fixed = TRUE)[[1]]
+    return(as.numeric(pieces[which(pieces == "Nominated") + 2]))
+  } else{
+    return(NA)
+  }
+}
 
 ```
 
@@ -271,7 +302,15 @@ Loop through the rows of the data frame and get the number of wins and nominatio
 
 ```{r functions2}
 
+df <- df %>% 
+  mutate(awards = as.character(awards)) # it will not work with factors
 
+for (i in 1:nrow(df)) {
+  df$oscar_nomination[i] <- get_oscar_nominations(df$awards[i])
+  df$oscars[i] <- get_oscar(df$awards[i])
+  df$nominations[i] <- get_nominations(df$awards[i])
+  df$wins[i] <- get_wins(df$awards[i])
+}
 
 ```
 
