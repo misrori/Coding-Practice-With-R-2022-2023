@@ -1,0 +1,266 @@
+
+---
+title: "Week 9 - Practice"
+author: "Viki - Misi"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+    prettydoc::html_pretty:
+      theme: cayman
+      highlight: github
+      toc: true
+---
+
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, fig.pos = 'H', fig.align='center', fig.height=3, fig.width=5.5) 
+
+```
+
+
+## Dataset 
+
+The [birthweight](https://rdrr.io/cran/MASS/man/birthwt.html) data from the **MASS** package was collected at Baystate Medical Center, Springfield, Mass during 1986. The data set contains risk factors associated with low infant birth weight. We will look at how the mothers actions (whether the mother smoked during pregnancy) and health during pregnancy affects the birth weight of a baby.
+ 
+```{r import}
+
+library(MASS)
+
+data(birthwt, package = "MASS")
+head(birthwt)
+
+```
+ 
+**Variables**:
+
+* bwt: birth weight in grams. - **Outcome**
+* smoke: smoking status during pregnancy.
+* race: mother's race (1 = white, 2 = black, 3 = other).
+* age: mother's age in years.
+* lwt: mother's weight in pounds at last menstrual period.
+* ptl: number of previous premature labours.
+* ht: history of hypertension.
+* ui: presence of uterine irritability.
+* ftv: number of physician visits during the first trimester.
+
+## Data preparation
+
+Convert the categorical variables into factors!
+
+```{r data-work, echo = F}
+
+library(tidyverse)
+birthwt <- birthwt %>%
+  mutate(
+    smoke = factor(smoke, labels = c("Non-smoker", "Smoker")),
+    race = factor(race, labels = c("White", "African American", "Other")),
+    ht = factor(ht, labels = c("No", "Yes")),
+    ui = factor(ui, labels = c("No", "Yes"))
+    ) 
+
+head(birthwt)
+
+```
+
+## Compare averages (Unconditional means)
+
+Create a summary table of the babies' birth weight by *smoke*. Use the **modelsummary** package.
+
+```{r compare-averages, echo = F}
+
+library(modelsummary)
+library(kableExtra)
+
+P95 <- function(x){quantile(x,0.95,na.rm=T)}
+P05 <- function(x){quantile(x,0.05,na.rm=T)}
+
+datasummary( ( Heading("Smoking") * smoke )  * ( 
+                 ( `Birth weight` = bwt ) ) ~ 
+               (N + Mean + SD + Min + Max + P05 + Median  + P95),
+              data = birthwt,
+              title = 'Descriptive statistics' ,
+              notes = 'Source: MASS package') %>% 
+              kableExtra::kable_styling(latex_options = "hold_position", font_size = 10)
+
+ggplot(data = birthwt, aes(x = bwt)) +
+  geom_density() +
+  facet_wrap(~smoke)
+
+```
+ 
+```{r hypothesis-test, echo = F, include = F}
+
+t.test(bwt ~ smoke, data=birthwt)
+
+```
+
+## Compare averages (Conditional means)
+
+Create a summary table of the babies' birth weight by *smoke* and *race*.
+
+```{r compare-averages-by-2-variables, echo = F}
+
+datasummary( ( Heading("Smoking") * smoke * Heading("Race") * race)  * ( 
+                 ( `Birth weight` = bwt ) ) ~ 
+               (N + Mean + SD + Min + Max + P05 + Median  + P95),
+              data = birthwt,
+              title = 'Descriptive statistics' ,
+              notes = 'Source: MASS package') %>% 
+              kableExtra::kable_styling(latex_options = "hold_position", font_size = 10)
+
+```
+
+Visualize the results!
+
+```{r compare-averages-by-2-variables-viz, echo = F}
+
+ggplot(data = birthwt, aes(x = race, y = bwt, fill = race)) +
+  geom_boxplot() +
+  labs(x = " ", y = "Birth weight (g)" ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 11L, hjust = 0.5, face = "bold"),
+    legend.position = "none") +
+  facet_wrap(vars(smoke)) +
+  scale_fill_viridis_d(alpha=0.8)
+
+```
+
+## Packages for linear regression - Summary
+
+```{r regressions-summary, echo = F}
+
+r1 <- "summary(lm(bwt ~ smoke + race, data = birthwt), vcov = sandwich)"
+r2 <- "lm_robust(bwt ~ smoke + race, data = birthwt, se_type = 'HC1')"
+r3 <- "feols(bwt ~ smoke + race ,data = birthwt, vcov = 'hetero')"
+
+df <- data.frame(Model = c("Model 1", "Model 2", "Model 3"), 
+                 Code = c(r1, r2, r3), 
+                 Dependency = linebreak(c("sandwich", "estimatr", "fixest")))
+
+kable(df, caption = "Regressions") %>%
+  kable_styling(latex_options = "hold_position")
+
+```
+
+## Regression analysis
+
+* Regress the birth weight of the babies on **smoke**, on **smoke** and **race** and extend the regressions with the rest of the predictors! 
+* Save the results of your regressions as reg1, reg2 etc.
+* Use the [fixest](https://www.rdocumentation.org/packages/fixest/versions/0.8.4/topics/feols) package for the regressions and the [modelsummary](https://vincentarelbundock.github.io/modelsummary/articles/modelsummary.html) package to create the regression table!
+
+```{r regression, echo = F}
+
+library(fixest)
+
+reg1 <- feols(bwt ~ smoke, data = birthwt, vcov = 'hetero')
+reg2 <- feols(bwt ~ smoke + race, data = birthwt, vcov = 'hetero')
+reg3 <- feols(bwt ~ smoke + race + age, data = birthwt, vcov = 'hetero')
+reg4 <- feols(bwt ~ smoke + race + age + lwt, data = birthwt, vcov = 'hetero')
+reg5 <- feols(bwt ~ smoke + race + age + lwt + ftv , data = birthwt, vcov = 'hetero')
+reg6 <- feols(bwt ~ smoke + race + age + lwt + ftv + ptl + ht + ui, data = birthwt, vcov = 'hetero')
+
+varname_report <- c(
+                    "(Intercept)" = "Intercept",
+                    "smokeSmoker" = "Smoker",
+                    "raceAfrican American" = "Race: African-AMerican", 
+                    "raceOther" = "Race: Other",
+                    "age" = "Mother's age",
+                    "lwt" = "Mother's weight",
+                    "ftv" = "Number of physician visits",
+                    "ptl" = "Number of previous premature labours",
+                    "htYes" = "History of hypertension",
+                    "uiYes" = "Presence of uterine irritability"
+                    )
+
+varname_omit <- c("htYes|uiYes")
+
+# Final summary table
+msummary(list("(1)" = reg1, "(2)" = reg2, "(3)" = reg3, "(4)" =  reg4, "(5)" =  reg5, "(6)" =  reg6 ),
+         fmt="%.3f",
+         gof_omit = 'DF|Deviance|Log.Lik.|F|AIC|BIC|R2 Within|R2 Pseudo|Std.Errors',
+         stars=c('*' = .05, '**' = .01, '***' = .001),
+         estimate = "{estimate}{stars} ", 
+         statistic = "std.error", #c("std.error", "conf.int")
+         coef_rename = varname_report,
+         # coef_omit = varname_omit,
+         title = "Dependent variable: Birth weight") %>% 
+        kable_classic(full_width = F, position = "center" , font_size = 9)
+
+
+```
+
+The unconditional weight difference is `r round(reg1$coefficients[2], 1)`.
+
+# Confidence intervals
+
+* Extract the coefficients, standard errors and confidence intervals of the *smoke* parameter
+* Create a summary table with the **smoke** coefficients, standard errors and confidence intervals from the 6 regressions
+* Visualize the results
+
+```{r SI, echo = F}
+
+library(data.table)
+
+SI <- rbindlist(
+  
+  lapply(1:6, function(i) {
+  
+    reg <- eval(as.name(paste0('reg',i)))
+    
+    Model <- paste0('Model',i)
+    Coefficient<- reg$coefficients[2]
+    SE <- reg$se[2]  
+    CI_lower <- confint(reg, parm = "smokeSmoker", vcov = 'hetero')[1,1]
+    CI_uppper <- confint(reg, parm = "smokeSmoker", vcov = 'hetero')[1,2] 
+    
+    df = data.frame("Model" = Model, 
+                    "Coefficient" = Coefficient, 
+                    "SE" = SE, 
+                    "CI_lower" = CI_lower, 
+                    "CI_uppper" = CI_uppper)
+  
+    return(df)
+  
+    }
+  )
+)
+
+kable(SI, caption = "Coefficients and CIs") %>%
+  kable_styling(latex_options = "hold_position")
+  
+
+ggplot(SI, aes(x = as.numeric(Coefficient), y = Model, xmin = as.numeric(CI_lower), xmax = as.numeric(CI_uppper))) +
+  geom_errorbarh(height=.2, aes(color = Model), size = 1) +
+  geom_point(size = 2.5) +
+  theme_bw() +
+  labs(x = "Coefficient and CI", y= "") +
+  scale_color_viridis_d() +
+  theme(
+    legend.position = "none",
+    axis.title.x = element_text(face = "bold"),
+    axis.text.y = element_text(face = "bold"))
+
+# Alternative solution
+SI = data.frame()
+
+for (i in 1:6) {
+  
+  reg <- eval(as.name(paste0('reg',i)))
+  
+  Model <- paste0('Model',i)
+  Coefficient<- reg$coefficients[2]
+  SE <- reg$se[2]  
+  CI_lower <- confint(reg, parm = "smokeSmoker", vcov = 'hetero')[1,1]
+  CI_uppper <- confint(reg, parm = "smokeSmoker", vcov = 'hetero')[1,2] 
+  
+  out = c(Model, Coefficient, SE, CI_lower, CI_uppper)
+  SI = rbind(SI, out)
+  
+}
+
+colnames(SI)<-c("Model", "Coefficient", "SE", "CI_lower", "CI_uppper")
+
+```
+
+
