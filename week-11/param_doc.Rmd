@@ -1,0 +1,45 @@
+---
+title: "param_rmd"
+# output: html_document
+date: "2022-12-01"
+params:
+  origin: "JFK"
+output:
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
+---
+
+---
+title: `r paste0('flights from ', params$origin)`
+---
+
+```{r, message=FALSE}
+library(nycflights13)
+library(ggplot2)
+library(dplyr)
+library(tidyverse)
+```
+
+```{r}
+print(params$origin)
+```
+
+
+```{r}
+flights %>%
+  filter(origin==params$origin) %>% 
+  group_by(carrier) %>%
+  summarise('n_flights'=n()) %>%
+  arrange(-n_flights) %>% 
+  head(10) %>% 
+  merge(y = airlines) %>% 
+  ggplot(aes(x = reorder(name, n_flights), y = n_flights)) + geom_col()+
+  theme_bw()+
+  theme(axis.text.x = element_text(angle = 25, vjust = 0.8, hjust=1))+
+  labs( y='Number of flights', x = 'Destination')+
+  coord_flip()
+
+
+```
+

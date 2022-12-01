@@ -1,0 +1,46 @@
+---
+title: "perfect_number"
+date: "2022-12-01"
+output:
+  prettydoc::html_pretty:
+    theme: cayman
+    highlight: github
+---
+
+In number theory, a perfect number is a positive integer that is equal to the sum of its positive divisors, excluding the number itself. For instance, 6 has divisors 1, 2 and 3 (excluding itself), and 1 + 2 + 3 = 6, so 6 is a perfect number.
+
+https://en.wikipedia.org/wiki/Perfect_number
+
+
+```{r include=FALSE}
+x<- 5
+check_if_perfect_number <- function(x) {
+  divisors <- c()
+  for (i in 1:(x-1)) {
+    if (x%%i==0) {
+      divisors <- c(divisors, i)
+    }
+  }
+  if (sum(divisors)==x) {
+    return(T)
+  }else{
+    return(F)
+  }
+}
+
+
+
+
+```
+
+
+```{r}
+
+for (j in 2:10000) {
+ if (check_if_perfect_number(j)) {
+   print(paste0('A perfect number is: ', j))
+ } 
+}
+
+```
+
