@@ -1,0 +1,137 @@
+---
+title: "Week 12 - Extra"
+author: "Viki - Misi"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+    prettydoc::html_pretty:
+      theme: cayman
+      highlight: github
+      toc: TRUE
+
+---
+
+```{r setup, include = F}
+
+knitr::opts_chunk$set(warning = F, message = F) 
+
+```
+
+
+## Snippets
+
+**Code Snippets** let us easily insert and execute predefined pieces of code that are commonly used in our work. Code Snippets are not just available for R but for many other languages.
+
+1. In RStudio, we can browse and define snippets under Tools -> Global Options... -> Code -> Edit Snippets window
+2. When typing code, the snippet will appear as an auto-complete option (similar to function names) if we type the first few letters of its name.
+3. Use Shift+Tab to insert the snippet immediately or pick the snippet from the auto-complete list (by clicking or scrolling on it and pressing Tab).
+
+Let's create a new code snippet with the following command and then call the snippet.
+
+```{r snippet, eval = F}
+
+############################################################
+# Title: 
+# Created by: <Your name>
+# Date: 
+# Notes: 
+############################################################  
+
+# Clear environment
+rm(list=ls())
+.rs.restartR()
+
+# Load packages
+
+# Define path
+data_in <- paste0(getwd(), "/input")
+data_out <- paste0(getwd(), "/output")
+
+# Import data
+df <- read.csv(paste0(data_in,"my_dataset.csv"))
+
+```
+
+
+## Pacman package
+
+The pacman package is an R package management tool.
+
+```{r pacman-install}
+
+if (!require("pacman")) {
+  install.packages("pacman")
+}
+
+```
+
+We can install and load multiple R packages using the **p_load** function.
+
+In base R if we want to install and load the required packages we need to type in the following long command:
+
+```{r pacman1, eval = F}
+
+if (!require("tidyverse")) {
+  install.packages("tidyverse")
+}
+
+if (!require("data.table")) {
+  install.packages("data.table")
+}
+
+if (!require("janitor")) {
+  install.packages("janitor")
+}
+
+if (!require("kableExtra")) {
+  install.packages("kableExtra")
+}
+
+if (!require("lubridate")) {
+  install.packages("lubridate")
+}
+
+library(tidyverse)
+library(data.table)
+library(janitor)
+library(kableExtra)
+library(lubridate)
+
+```
+
+While using **pacman** we can do the same with one line of code:
+
+```{r pacman2}
+
+library(pacman)
+pacman::p_load(tidyverse, data.table, janitor, kableExtra, lubridate)
+
+```
+
+
+## Extract dependencies
+
+We can use the **NCmisc** package to identify which packages (and which functions) are actually being used by an R file. 
+
+First we need to extract the R code from the Rmd document:
+
+```{r extract-code}
+
+pacman::p_load(knitr)
+purl(input = "C:/Users/User/Documents/GitHub/Coding-Practice-With-R-2022-2023/week-10/week-10.Rmd",
+     output = "C:/Users/User/Documents/GitHub/Coding-Practice-With-R-2022-2023/week-10/week-10.R")
+
+```
+
+The **list.functions.in.file()** function parses all functions used in an R script and then lists them by package. 
+
+```{r list-dependencies}
+
+pacman::p_load(NCmisc, kableExtra)
+dependencies <- list.functions.in.file('C:/Users/User/Documents/GitHub/Coding-Practice-With-R-2022-2023/week-10/week-10.R', alphabetic = TRUE)
+
+kable(dependencies) %>%
+  kable_styling(full_width = F, font_size = 11)
+
+```
+
+
